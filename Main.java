@@ -1,3 +1,6 @@
+import java.io.File;  // Import the File class
+import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.util.Scanner; // Import the Scanner class to read text files
 
 
 public class Main {
@@ -5,7 +8,7 @@ public class Main {
         LinkedList<NodeCityList> graph = new LinkedList<>();
         NodeCityList firstCity = new NodeCityList("Dallas");
 
-        firstCity.addHead("Garland");
+        firstCity.addHead("Garland",23,13);
         firstCity.addHead("Fort Worth");
         firstCity.addHead("Arlington");
 
@@ -16,7 +19,7 @@ public class Main {
         secondCity.addHead("Dallas");
 
         graph.addHead(secondCity);
-        
+
         System.out.println(graph);
     }
 }

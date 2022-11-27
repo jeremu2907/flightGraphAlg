@@ -1,14 +1,32 @@
 class Node<E> {
     E value;
     Node<E> next;
+    int cost;
+    int minutes;
 
+    //Used to store origin
     Node(E e){
         value = e;
+        next = null;
+        cost = -1;
+        minutes = -1;
+    }
+
+    //Used to store flight data
+    Node(E e, int c, int m){
+        value = e;
+        cost = c;
+        minutes = m;
         next = null;
     }
 
     public String toString(){
-        return value.toString();
+        if(cost == -1 || minutes == -1){
+            return value.toString();
+        }
+        else{
+            return value.toString() + " Cost: " + cost + " Minutes: " + minutes;
+        }
     }
 }
 
@@ -25,9 +43,17 @@ public class LinkedList<E>{
         this.head.next = null;
     }
 
-    //Add to head of the path
+    //Add new origin
     public int addHead(E s){
         Node<E> e = new Node<>(s);
+        e.next = this.head;
+        this.head = e;
+        return 0;
+    }
+
+    //Add to list of flights
+    public int addHead(E s, int c, int m){
+        Node<E> e = new Node<>(s,c,m);
         e.next = this.head;
         this.head = e;
         return 0;

@@ -6,6 +6,7 @@ class Node<E> {
 
     //Used to store origin
     Node(E e){
+        System.out.println(e);
         value = e;
         next = null;
         cost = -1;
@@ -67,11 +68,12 @@ public class LinkedList<E>{
             return null;
 
         while(true){
-            if(t.value == e && option == 0)
+            // System.out.println(t.cost);
+            if(t.value.equals(e) && option == 0)
                 return t;   //Found when request for the Node<E> itself
             
             if(t.next != null){
-                if(t.next.value == e && option == 1)
+                if(t.value.equals(e) && option == 1)
                     return t;   //Found when require Node<E> before the target Node<E>
                 t = t.next;
             }

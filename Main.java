@@ -56,31 +56,28 @@ public class Main {
         }
 
         System.out.println(graph);
-        graph.path("Chicago","Dallas",'T');
 
+        //Reading requests from file
+        try {
+            File myObj = new File("request.txt");
+            Scanner myReader = new Scanner(myObj);
+            Pattern r = Pattern.compile("([A-Z][a-z]+)\\|([A-Z][a-z]+)\\|(T|C)");
 
-        //Reading flight paths from file
-        // try {
-        //     File myObj = new File("request.txt");
-        //     Scanner myReader = new Scanner(myObj);
-        //     Pattern r = Pattern.compile("([A-Z][a-z]+)\\|([A-Z][a-z]+)\\|(T|C)");
+            int numEntries = Integer.valueOf(myReader.nextLine()); //Reads the top number
 
-        //     int numEntries = myReader.nextInt(); //Reads the top number
-
-        //     for(int i = 1; i <= numEntries; i++) {
-        //       String data = myReader.nextLine();
-        //       Matcher m = r.matcher(data);
-        //       if(m.find()){
-        //         String origin = m.group(1);
-        //         String destination = m.group(2);
-        //         char option = m.group(3).charAt(0);
-        //       }
-        //     }
-        //     myReader.close();
-        // } catch (FileNotFoundException e) {
-        //     System.out.println("An error occurred.");
-        //     e.printStackTrace();
-        // }
+            for(int i = 1; i <= numEntries; i++) {
+              String data = myReader.nextLine();
+              Matcher m = r.matcher(data);
+              if(m.find()){
+                graph.path(m.group(1),m.group(2),m.group(3).charAt(0));
+                System.out.println("\n");
+              }
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
 
     }
 }

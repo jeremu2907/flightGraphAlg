@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
-public class Stack<E>{
+public class StackG<E>{
     private ArrayList<E> stack;
     private int topIdx;
 
-    public Stack(){
+    public StackG(){
         stack = new ArrayList<E>();
-        topIdx = 0;
+        topIdx = -1;
     }
 
     public E top(){
@@ -16,16 +16,26 @@ public class Stack<E>{
     public int push(E e){
         if(stack.add(e)){
             topIdx++;
-            return 0;   //Success
+            return topIdx;   //Success
         } else {
             return -1;  //Failure
         }
     }
 
     public E pop(){
-        if(topIdx > 0)
+        if(topIdx > 0){
+            topIdx--;
             return stack.remove(topIdx);
+        }
         else    
             return null;
+    }
+
+    public String toString(){
+        String t = "";
+        for(int i = 0; i < topIdx; i++){
+            t = t + stack.get(i) + " -> ";
+        }
+        return t;
     }
 }

@@ -38,6 +38,15 @@ public class Main {
                     } else {
                         graphNode.addHead(destination, cost, minutes);
                     }
+
+                    graphNode = graph.findOrigin(destination);
+                    if(graphNode == null){
+                        NodeCityList tempOrigin = new NodeCityList(destination);
+                        tempOrigin.addHead(origin, cost, minutes);
+                        graph.addOrigin(tempOrigin);
+                    } else {
+                        graphNode.addHead(origin, cost, minutes);
+                    }
                 }
             }
             myReader.close();
@@ -47,32 +56,31 @@ public class Main {
         }
 
         System.out.println(graph);
+        graph.path("Houston","Dallas",'T');
 
 
         //Reading flight paths from file
-        try {
-            File myObj = new File("request.txt");
-            Scanner myReader = new Scanner(myObj);
-            Pattern r = Pattern.compile("([A-Z][a-z]+)\\|([A-Z][a-z]+)\\|(T|C)");
+        // try {
+        //     File myObj = new File("request.txt");
+        //     Scanner myReader = new Scanner(myObj);
+        //     Pattern r = Pattern.compile("([A-Z][a-z]+)\\|([A-Z][a-z]+)\\|(T|C)");
 
-            int numEntries = myReader.nextInt(); //Reads the top number
+        //     int numEntries = myReader.nextInt(); //Reads the top number
 
-            for(int i = 1; i <= numEntries; i++) {
-              String data = myReader.nextLine();
-              Matcher m = r.matcher(data);
-              if(m.find()){
-                String origin = m.group(1);
-                String destination = m.group(2);
-                char option = m.group(3).charAt(0);
-
-                System.out.println(graph.findOrigin(origin));
-              }
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
+        //     for(int i = 1; i <= numEntries; i++) {
+        //       String data = myReader.nextLine();
+        //       Matcher m = r.matcher(data);
+        //       if(m.find()){
+        //         String origin = m.group(1);
+        //         String destination = m.group(2);
+        //         char option = m.group(3).charAt(0);
+        //       }
+        //     }
+        //     myReader.close();
+        // } catch (FileNotFoundException e) {
+        //     System.out.println("An error occurred.");
+        //     e.printStackTrace();
+        // }
 
     }
 }

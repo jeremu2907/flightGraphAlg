@@ -34,14 +34,21 @@ class Node<E> {
 
 public class LinkedList<E>{
     public Node<E> head;
+    private int size;
 
     public LinkedList() {
         this.head = null;
+        this.size = 0;
     }
 
     public LinkedList(E e){
         this.head = new Node<>(e);
         this.head.next = null;
+        this.size = 1;
+    }
+
+    public int size(){
+        return this.size;
     }
 
     //Add new origin
@@ -49,14 +56,7 @@ public class LinkedList<E>{
         Node<E> e = new Node<>(s);
         e.next = this.head;
         this.head = e;
-        return 0;
-    }
-
-    //Add to list of flights
-    public int addHead(E s, int c, int m){
-        Node<E> e = new Node<>(s,c,m);
-        e.next = this.head;
-        this.head = e;
+        this.size++;
         return 0;
     }
 
@@ -106,6 +106,7 @@ public class LinkedList<E>{
             return -1;  //Not found no removal
         else{
             t.next = t.next.next;
+            this.size--;
         }
 
         return 0;

@@ -2,41 +2,77 @@ import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Scanner; // Import the Scanner class to read text files
 
+//For String matching when reading file
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class Main {
     public static void main(String[] args){
         Graph graph = new Graph();
-        NodeCityList firstCity = new NodeCityList("Dallas");
 
-        firstCity.addHead("Garland",23,13);
-        firstCity.addHead("Fort Worth",44,23);
-        firstCity.addHead("Arlington",44,77);
-        firstCity.addHead("Houston",44,77);
+        //Reading flight paths from file
+        try {
+            File myObj = new File("route.txt");
+            Scanner myReader = new Scanner(myObj);
+            Pattern r = Pattern.compile("([A-Z][a-z]+)\\|([A-Z][a-z]+)\\|(\\d+)\\|(\\d+)");
 
-        graph.addOrigin(firstCity);
+            int numEntries = Integer.valueOf(myReader.nextLine()); //Reads the top number
 
-        NodeCityList secondCity = new NodeCityList("Houston");
-        secondCity.addHead("Katy",77,99);
-        secondCity.addHead("Dallas",15,99);
-        secondCity.addHead("New Orleans", 123,55543);
+            for(int i = 1; i <= numEntries; i++) {
+                String data = myReader.nextLine();
+                Matcher m = r.matcher(data);
+                if(m.find()){
+                    String origin = m.group(1);
+                    String destination = m.group(2);
+                    int cost = Integer.valueOf(m.group(3));
+                    int minutes = Integer.valueOf(m.group(4));
 
-        graph.addOrigin(secondCity);
-        
-        System.out.println(graph.findOrigin("Houston").find("Katy",0));
+                    // If origin exists then add new destination to head
+                    // Else create a new origin and then add new destination to head
+                    NodeCityList graphNode = graph.findOrigin(origin);
+                    if(graphNode == null){
+                        NodeCityList tempOrigin = new NodeCityList(origin);
+                        tempOrigin.addHead(destination, cost, minutes);
+                        graph.addOrigin(tempOrigin);
+                    } else {
+                        graphNode.addHead(destination, cost, minutes);
+                    }
+                }
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+        System.out.println(graph);
+
+
+        //Reading flight paths from file
+        try {
+            File myObj = new File("request.txt");
+            Scanner myReader = new Scanner(myObj);
+            Pattern r = Pattern.compile("([A-Z][a-z]+)\\|([A-Z][a-z]+)\\|(T|C)");
+
+            int numEntries = myReader.nextInt(); //Reads the top number
+
+            for(int i = 1; i <= numEntries; i++) {
+              String data = myReader.nextLine();
+              Matcher m = r.matcher(data);
+              if(m.find()){
+                String origin = m.group(1);
+                String destination = m.group(2);
+                char option = m.group(3).charAt(0);
+
+                System.out.println(graph.findOrigin(origin));
+              }
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
     }
-
-    // public static void readFile(){
-    //     try {
-    //         File myObj = new File("route.txt");
-    //         Scanner myReader = new Scanner(myObj);
-    //         while (myReader.hasNextLine()) {
-    //           String data = myReader.nextLine();
-    //           System.out.println(data);
-    //         }
-    //         myReader.close();
-    //       } catch (FileNotFoundException e) {
-    //         System.out.println("An error occurred.");
-    //         e.printStackTrace();
-    //       }
-    // }
 }

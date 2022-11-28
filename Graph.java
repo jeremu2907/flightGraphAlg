@@ -74,7 +74,7 @@ public class Graph{
             temp = temp.next;
         }
         costToNode.set(listNode.indexOf(o),0);
-        parentNode.set(listNode.indexOf(o), o);
+        parentNode.set(listNode.indexOf(o), null);
         ArrayList<Boolean> visitedNode = new ArrayList<>(Collections.nCopies(listNode.size(),false));
 
         for(int i = 0; i <= this.size(); i++){
@@ -107,6 +107,12 @@ public class Graph{
         System.out.println(costToNode);
         System.out.println(parentNode);
         System.out.println("Stack: " + processedNodes);
+
+        String s = d;
+        while(s != null){
+            System.out.print(s + " <- ");
+            s = parentNode.get(listNode.indexOf(s));
+        }
     }
 
     // public static void main(String[] args){

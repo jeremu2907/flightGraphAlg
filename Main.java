@@ -56,7 +56,7 @@ public class Main {
         }
 
         System.out.println(graph);
-        graph.path("Houston","Dallas",'T');
+        graph.path("Chicago","Dallas",'T');
 
 
         //Reading flight paths from file

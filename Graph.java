@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.w3c.dom.css.ElementCSSInlineStyle;
-
 public class Graph{
     NodeCityList head;
     private Integer size;

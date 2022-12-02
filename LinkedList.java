@@ -69,11 +69,11 @@ public class LinkedList<E>{
 
         while(true){
             // System.out.println(t.cost);
-            if(t.value.equals(e) && option == 0)
+            if(t.value.equals(e.toString()) && option == 0)
                 return t;   //Found when request for the Node<E> itself
             
             if(t.next != null){
-                if(t.value.equals(e) && option == 1)
+                if(t.value.equals(e.toString()) && option == 1)
                     return t;   //Found when require Node<E> before the target Node<E>
                 t = t.next;
             }

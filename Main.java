@@ -15,7 +15,7 @@ public class Main {
         try {
             File myObj = new File("route.txt");
             Scanner myReader = new Scanner(myObj);
-            Pattern r = Pattern.compile("([A-Z][a-z]+)\\|([A-Z][a-z]+)\\|(\\d+)\\|(\\d+)");
+            Pattern r = Pattern.compile("([A-Z][a-z]*)\\|([A-Z][a-z]*)\\|(\\d+)\\|(\\d+)");
 
             int numEntries = Integer.valueOf(myReader.nextLine()); //Reads the top number
 
@@ -47,6 +47,8 @@ public class Main {
                     } else {
                         graphNode.addHead(origin, cost, minutes);
                     }
+                } else {
+                    System.out.println("something wrong");
                 }
             }
             myReader.close();
@@ -56,8 +58,10 @@ public class Main {
         }
 
         System.out.println(graph);
+        // graph.dfs("Houston", "Chicago", 'C');
 
-        //Reading requests from file
+
+        // Reading requests from file
         try {
             File myObj = new File("request.txt");
             Scanner myReader = new Scanner(myObj);
@@ -69,7 +73,9 @@ public class Main {
               String data = myReader.nextLine();
               Matcher m = r.matcher(data);
               if(m.find()){
-                graph.path(m.group(1),m.group(2),m.group(3).charAt(0));
+                System.out.printf("Flight %d: %s, %s (%s)\n",i, m.group(1), m.group(2), (m.group(3).charAt(0) == 'C')? "Cost":"Time");
+                // graph.path(m.group(1),m.group(2),m.group(3).charAt(0));
+                graph.dfs(m.group(1),m.group(2),m.group(3).charAt(0));
                 System.out.println("\n");
               }
             }

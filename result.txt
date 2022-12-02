@@ -1,0 +1,15 @@
+[H[2JChicago
+Houston
+Austin
+Dallas
+
+Flight 1: Dallas, Houston (Time)
+[Dallas, Austin, Houston]
+[Dallas, Houston]
+
+
+Flight 2: Chicago, Dallas (Cost)
+[Chicago, Austin, Dallas]
+[Chicago, Austin, Houston, Dallas]
+
+

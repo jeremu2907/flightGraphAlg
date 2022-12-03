@@ -46,7 +46,7 @@ public class Graph{
         return t;
     }
 
-    public void dfs(String o, String d, char option){
+    public void dfs(String o, String d, char option, int n){
         StackG<NodeCityList> stack = new StackG<>();
         StackG<String> path = new StackG<>();
         ArrayList<String> listNode = new ArrayList<>();
@@ -145,10 +145,10 @@ public class Graph{
             }
         }
 
-        topThreePaths(pathList, weight, option);
+        topThreePaths(pathList, weight, option, n);
     }
 
-    private void topThreePaths(ArrayList<ArrayList<String>> paths, ArrayList<Integer[]> weight, char option){
+    private void topThreePaths(ArrayList<ArrayList<String>> paths, ArrayList<Integer[]> weight, char option, int n){
         if(paths.size() == 0){
             System.out.println("No flight available");
             return;
@@ -156,7 +156,7 @@ public class Graph{
 
         int thres = 0;
         int op = (option == 'C')? 0 : 1;
-        int iter = (paths.size() >= 3)? 3 : paths.size();
+        int iter = (paths.size() >= n)? n : paths.size();
         for(int i = 0; i < iter; i++){
             int idx = 0;
             int min = Integer.MAX_VALUE;
@@ -168,7 +168,7 @@ public class Graph{
                 } 
             }
             thres = min;
-            System.out.print("Path " + i + ": " + toPath(paths.get(idx)) + "   Time: " + weight.get(idx)[1] + "  Cost: " + weight.get(idx)[0] + "\n");
+            System.out.print("Path " + (i+1) + ": " + toPath(paths.get(idx)) + "   Time: " + weight.get(idx)[1] + "  Cost: " + weight.get(idx)[0] + "\n");
         }
     }
 

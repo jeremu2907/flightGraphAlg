@@ -58,7 +58,8 @@ public class Main {
         }
 
         System.out.println(graph);
-        // graph.dfs("Houston", "Chicago", 'C');
+        graph.dfs("Chicago", "Houston", 'C', 5);
+        System.out.println();
 
 
         // Reading requests from file
@@ -75,7 +76,7 @@ public class Main {
               if(m.find()){
                 System.out.printf("Flight %d: %s, %s (%s)\n",i, m.group(1), m.group(2), (m.group(3).charAt(0) == 'C')? "Cost":"Time");
                 // graph.path(m.group(1),m.group(2),m.group(3).charAt(0));
-                graph.dfs(m.group(1),m.group(2),m.group(3).charAt(0));
+                graph.dfs(m.group(1),m.group(2),m.group(3).charAt(0),3);
                 System.out.println();
               }
             }

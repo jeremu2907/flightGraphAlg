@@ -8,8 +8,8 @@ public class NodeCityList extends LinkedList<String>{
     }
 
     public String toString(){
-        // return this.city.concat(" -> ".concat(super.listToString()));
-        return this.city;
+        return this.city.concat(" -> ".concat(super.listToString()));
+        // return this.city;
     }
 
     //Add to list of flights

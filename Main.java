@@ -76,7 +76,7 @@ public class Main {
                 System.out.printf("Flight %d: %s, %s (%s)\n",i, m.group(1), m.group(2), (m.group(3).charAt(0) == 'C')? "Cost":"Time");
                 // graph.path(m.group(1),m.group(2),m.group(3).charAt(0));
                 graph.dfs(m.group(1),m.group(2),m.group(3).charAt(0));
-                System.out.println("\n");
+                System.out.println();
               }
             }
             myReader.close();

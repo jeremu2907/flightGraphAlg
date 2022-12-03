@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class Graph{
@@ -57,65 +58,59 @@ public class Graph{
             listNode.add(temp.city);
             temp = temp.next;
         }
-        ArrayList<ArrayList<Boolean>> visitedNode = new ArrayList<ArrayList<Boolean>>();
-        ArrayList<ArrayList<String>> listParent = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<Boolean>> visitedNode = new ArrayList<ArrayList<Boolean>>(); //Row is parent, columns are visted child nodes
+        ArrayList<ArrayList<String>> listParent = new ArrayList<ArrayList<String>>();   //Row is node, collumn list are parents of node
         for(int i = 0; i < listNode.size(); i++){
             visitedNode.add(new ArrayList<Boolean>(Collections.nCopies(listNode.size(),false)));
             listParent.add(new ArrayList<String>());
         }
-        // ArrayList<ArrayList<String>> listParent = new ArrayList<ArrayList<String>>(Collections.nCopies(listNode.size(), new ArrayList<String>()));
-        // System.out.println(visitedNode);
+        ArrayList<Integer[]> weight = new ArrayList<>();            //<cost,time>
+        int cost = 0;
+        int time = 0;
         stack.push(this.findOrigin(o));
 
         while(!stack.empty()){
-            //t = stack pop
-            NodeCityList t = stack.pop();
-            
-            // System.out.println(listNode);
-            // System.out.println("Frisco: "+ visitedNode.get(listNode.indexOf("Frisco")));
-            if(!path.empty()){
-                //Go to matrix row of the path top then mark the upcoming path top as visited
-                // System.out.println("Mark " + t.city + " in " + path.top() + " visited index in list is: " + listNode.indexOf(path.top()));
+            NodeCityList t = stack.pop();   //Hold value of stack for operation purposes
+            if(!path.empty()){              //Set the parent child's node to visited
                 visitedNode.get(listNode.indexOf(path.top())).set(listNode.indexOf(t.city), true);
-                // System.out.println("Frisco: "+ visitedNode.get(listNode.indexOf("Frisco")));
-                // System.out.println(path.top() + visitedNode.get(listNode.indexOf(path.top())));
+                Node<String> tempOrigin = findOrigin(path.top()).find(t.city,0);
+                cost += tempOrigin.cost;
+                time += tempOrigin.minutes;
             }
-            // System.out.println(visitedNode);
             path.push(t.city);
-            //t visited
-            // System.out.println("PATH   " + path);
 
-            //if path top is d
+            //if path top is the destination
             if(path.top().equals(d)){
-                //if path not explored
                 ArrayList<String> pathArray = path.toArrayList();
                 if(pathList.indexOf(pathArray) == -1){
-                    //save path
                     pathList.add(pathArray);
-                    // System.out.println("New Path    " + pathArray);
+                    weight.add(new Integer[]{cost,time});
                 }
-                //path pop
-                path.pop();
+                String s = path.pop();                 //Destination is poped the moment the path is processed
+                if(!path.empty()){
+                    Node<String> tempOrigin = findOrigin(path.top()).find(s,0);
+                    cost -= tempOrigin.cost;
+                    time -= tempOrigin.minutes;
+                }
             } else {
                 Node<String> r = findOrigin(path.top()).head;
                 while(r != null){
-                    if(!visitedNode.get(listNode.indexOf(path.top())).get(listNode.indexOf(r.value)) && listParent.get(listNode.indexOf(path.top())).indexOf(r.value) == -1){
+                    //Only consider unvisted child nodes
+                    if(!visitedNode.get(listNode.indexOf(path.top())).get(listNode.indexOf(r.value)) && 
+                    listParent.get(listNode.indexOf(path.top())).indexOf(r.value) == -1){
                         stack.push(findOrigin(r.value));
-                        //Set set the parent node of the node added to stack
+                        //Path top is the parent node of the current r node
                         listParent.get(listNode.indexOf(r.value)).add(path.top());
                     }
-                    // System.out.println(r);
                     r = r.next;
                 }
             }
-            // System.out.println("STACK  " + stack);
 
-            //pop path
+            //this part back tracks until a node has unvisted non-parent adjacent nodes
             while(!path.empty()){
                 boolean breakloop = false;
-                if(findOrigin(path.top()).head == null){
+                if(findOrigin(path.top()).head == null){    //No adjacent nodes
                     path.pop();
-                    // System.out.println("No nodes pop");
                     continue;
                 }
 
@@ -125,7 +120,6 @@ public class Graph{
                         if(listParent.get(listNode.indexOf(path.top())).indexOf(r.value) == -1){
                             if(!visitedNode.get(listNode.indexOf(path.top())).get(listNode.indexOf(r.value))){
                                 breakloop = true;
-                                // System.out.println(r.value + " not visited, not poping " + path.top());
                                 break;
                             }
                         }
@@ -134,37 +128,60 @@ public class Graph{
                     if(breakloop){
                         break;
                     }
-                    else{
+                    else{                                   //All nonparent adjacent nodes visited
                         r = findOrigin(path.top()).head;
                         while(r != null){
-                            // if(listParent.get(listNode.indexOf(path.top())).indexOf(r.value) == -1){
-                                visitedNode.get(listNode.indexOf(path.top())).set(listNode.indexOf(r.value), false);
-                            // }
+                            visitedNode.get(listNode.indexOf(path.top())).set(listNode.indexOf(r.value), false);
                             r = r.next;
                         }
-                        // System.out.println("All nodes visited, popping " + path.top());
                         String s = path.pop();
-                        if(!path.empty())
-                        listParent.get(listNode.indexOf(s)).remove(listParent.get(listNode.indexOf(s)).indexOf(path.top()));
+                        if(!path.empty()){
+                            listParent.get(listNode.indexOf(s)).remove(listParent.get(listNode.indexOf(s)).indexOf(path.top()));
+                            Node<String> tempOrigin = findOrigin(path.top()).find(s,0);
+                            cost -= tempOrigin.cost;
+                            time -= tempOrigin.minutes;
+                        }
                     }
                 }
             }
-            //while path not empty
-                //if path top has no node pop then consider new path top
-
-                //if all non parent nodes visited
-                    //traverse node list and consider non parent nodes
-                        //if node has one parent set to unvisted
-                        //else do nothing
-
-                        //d to unvisited
-                    //path top set to not have visited d
-                    //(path pop).remove parent(path.top)
         }
 
-        for(ArrayList<String> i : pathList){
-            System.out.println(i);
+        topThreePaths(pathList, weight, option);
+    }
+
+    private void topThreePaths(ArrayList<ArrayList<String>> paths, ArrayList<Integer[]> weight, char option){
+        if(paths.size() == 0){
+            System.out.println("No flight available");
+            return;
         }
+
+        int thres = 0;
+        int op = (option == 'C')? 0 : 1;
+        int iter = (paths.size() >= 3)? 3 : paths.size();
+        for(int i = 0; i < iter; i++){
+            int idx = 0;
+            int min = Integer.MAX_VALUE;
+            int j = 0;
+            for(;j < weight.size(); j++){
+                if(weight.get(j)[op] < min && weight.get(j)[op] > thres){
+                    min = weight.get(j)[op];
+                    idx = j;
+                } 
+            }
+            thres = min;
+            System.out.print("Path " + i + ": " + toPath(paths.get(idx)) + "   Time: " + weight.get(idx)[1] + "  Cost: " + weight.get(idx)[0] + "\n");
+        }
+    }
+
+    private String toPath(ArrayList<String> path){
+        String r = "";
+        for(String i : path){
+            if(!r.equals("")){
+                r += "->";
+            }
+            r += " " + i + " ";
+        }
+        return r;
     }
 
     private int minCost(ArrayList<Integer> costList, ArrayList<Boolean> visited){

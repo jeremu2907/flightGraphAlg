@@ -1,15 +1,13 @@
-[H[2JChicago
-Houston
-Austin
-Dallas
+Chicago -> Austin Cost: 144 Minutes: 192 | 
+Houston -> Dallas Cost: 101 Minutes: 51 | Austin Cost: 95 Minutes: 39 | 
+Austin -> Chicago Cost: 144 Minutes: 192 | Houston Cost: 95 Minutes: 39 | Dallas Cost: 98 Minutes: 47 | 
+Dallas -> Houston Cost: 101 Minutes: 51 | Austin Cost: 98 Minutes: 47 | 
 
 Flight 1: Dallas, Houston (Time)
-[Dallas, Austin, Houston]
-[Dallas, Houston]
-
+Path 0:  Dallas -> Houston    Time: 51  Cost: 101
+Path 1:  Dallas -> Austin -> Houston    Time: 86  Cost: 193
 
 Flight 2: Chicago, Dallas (Cost)
-[Chicago, Austin, Dallas]
-[Chicago, Austin, Houston, Dallas]
-
+Path 0:  Chicago -> Austin -> Dallas    Time: 239  Cost: 242
+Path 1:  Chicago -> Austin -> Houston -> Dallas    Time: 282  Cost: 340
 

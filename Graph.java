@@ -102,10 +102,18 @@ public class Graph{
                         stack.push(findOrigin(r.value));
                         //Path top is the parent node of the current r node
                         listParent.get(listNode.indexOf(r.value)).add(path.top());
+                        // System.out.println(path.top() + " to " + r.value + " is added to stack");
                     }
+                    // else{
+                    //     if(listParent.get(listNode.indexOf(path.top())).indexOf(r.value) != -1)
+                    //         System.out.println(r.value + " is parent of " + path.top());
+                    //     if(visitedNode.get(listNode.indexOf(path.top())).get(listNode.indexOf(r.value)))
+                    //         System.out.println(path.top() + " to " + r.value + " is visisted");
+                    // }
                     r = r.next;
                 }
             }
+            
 
             //this part back tracks until a node has unvisted non-parent adjacent nodes
             while(!path.empty()){
@@ -133,6 +141,7 @@ public class Graph{
                         r = findOrigin(path.top()).head;
                         while(r != null){
                             visitedNode.get(listNode.indexOf(path.top())).set(listNode.indexOf(r.value), false);
+                            listParent.get(listNode.indexOf(r.value)).remove(listNode.indexOf(path.top()));
                             r = r.next;
                         }
                         String s = path.pop();

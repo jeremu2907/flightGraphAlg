@@ -1,7 +1,8 @@
-6
-Dallas|Austin|98|47
-Austin|Houston|95|39
-Dallas|Houston|101|51
-Austin|Chicago|144|192
-Dallas|Frisco|1000|1
-Frisco|Austin|132|3
+7
+A|B|2|0
+A|C|1|0
+A|D|1|0
+B|C|2|0
+D|C|2|0
+D|E|2|0
+C|E|1|0

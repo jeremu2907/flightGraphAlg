@@ -13,7 +13,7 @@ public class Main {
 
         //Reading flight paths from file
         try {
-            File myObj = new File("route.txt");
+            File myObj = new File(args[0]);
             Scanner myReader = new Scanner(myObj);
             Pattern r = Pattern.compile("([A-Z][a-z]*)\\|([A-Z][a-z]*)\\|(\\d+)\\|(\\d+)");
 
@@ -58,15 +58,15 @@ public class Main {
         }
 
         System.out.println(graph);
-        graph.dfs("Chicago", "Houston", 'C', 5);
+        // graph.dfs("Chicago", "Houston", 'C', 5);
         System.out.println();
 
 
         // Reading requests from file
         try {
-            File myObj = new File("request.txt");
+            File myObj = new File(args[1]);
             Scanner myReader = new Scanner(myObj);
-            Pattern r = Pattern.compile("([A-Z][a-z]+)\\|([A-Z][a-z]+)\\|(T|C)");
+            Pattern r = Pattern.compile("([A-Z][a-z]*)\\|([A-Z][a-z]*)\\|(T|C)");
 
             int numEntries = Integer.valueOf(myReader.nextLine()); //Reads the top number
 

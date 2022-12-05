@@ -76,6 +76,7 @@ public class Graph{
                 cost += tempOrigin.cost;
                 time += tempOrigin.minutes;
             }
+            if(t != null)
             path.push(t.city);
 
             //if path top is the destination
@@ -94,6 +95,7 @@ public class Graph{
             } else {
                 Node<String> r = findOrigin(path.top()).head;
                 while(r != null){
+                    listParent.get(listNode.indexOf(r.value)).addAll(listParent.get(listNode.indexOf(path.top())));
                     //Only consider unvisted child nodes
                     if(!visitedNode.get(listNode.indexOf(path.top())).get(listNode.indexOf(r.value)) && 
                     listParent.get(listNode.indexOf(path.top())).indexOf(r.value) == -1){
@@ -144,6 +146,10 @@ public class Graph{
                 }
             }
         }
+        
+        // for(int i = 0; i < pathList.size() ; i++){
+        //     System.out.println(pathList.get(i) + "   " + weight.get(i)[0]);
+        // }
 
         topThreePaths(pathList, weight, option, n);
     }

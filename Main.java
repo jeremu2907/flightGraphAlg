@@ -9,6 +9,13 @@ import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args){
+        //If no param, default
+        if(args.length == 0){
+            args = new String[2];
+            args[0] = "route.txt";
+            args[1] = "request.txt";
+        }
+
         Graph graph = new Graph();
 
         //Reading flight paths from file
@@ -57,9 +64,9 @@ public class Main {
             e.printStackTrace();
         }
 
-        System.out.println(graph);
+        // System.out.println(graph);
         // graph.dfs("Chicago", "Houston", 'C', 5);
-        System.out.println();
+        // System.out.println();
 
 
         // Reading requests from file

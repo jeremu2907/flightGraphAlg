@@ -167,11 +167,12 @@ public class Graph{
             return;
         }
 
+        int op = (option == 'C')? 0 : 1;
+
         // for(int i = 0; i < paths.size() ; i++){
-        //     System.out.println(paths.get(i) + "   " + weight.get(i)[0]);
+        //     System.out.println(paths.get(i) + "   " + weight.get(i)[op]);
         // }
 
-        int op = (option == 'C')? 0 : 1;
         int iter = (paths.size() >= n)? n : paths.size();
         for(int i = 0; i < iter; i++){
             int idx = 0;
@@ -199,116 +200,6 @@ public class Graph{
         }
         return r;
     }
-
-    private int minCost(ArrayList<Integer> costList, ArrayList<Boolean> visited){
-        int min = Integer.MAX_VALUE;
-        int idx = 0;
-
-        for(int i = 0; i < costList.size(); i++){
-            if(costList.get(i) < min && visited.get(i) == false){
-                idx = i;
-                min = costList.get(i);
-            }
-        }
-        return idx;
-    }
-
-    public void path(String o, String d, char option){
-        StackG<String> processedNodes = new StackG<>();
-        ArrayList<String> listNode = new ArrayList<>();
-        ArrayList<Integer> costToNode = new ArrayList<>(Collections.nCopies(this.size(), Integer.MAX_VALUE));
-        ArrayList<Integer> timeToNode = new ArrayList<>(Collections.nCopies(this.size(), Integer.MAX_VALUE));
-        ArrayList<String> parentNode = new ArrayList<>(Collections.nCopies(this.size(), null));
-        NodeCityList temp = this.head;
-
-        //Filling in listNode cities name used for searching later
-        //Filling in corresponding initial state of data depending on listNode
-        while(temp != null){
-            listNode.add(temp.city);
-            temp = temp.next;
-        }
-        costToNode.set(listNode.indexOf(o),0);
-        timeToNode.set(listNode.indexOf(o),0);
-        parentNode.set(listNode.indexOf(o), null);
-        ArrayList<Boolean> visitedNode = new ArrayList<>(Collections.nCopies(listNode.size(),false));
-
-        for(int i = 0; i <= this.size(); i++){
-            //Find the closest node to the explored trees
-            int leastIDX = (option == 'C')? this.minCost(costToNode,visitedNode) : this.minCost(timeToNode,visitedNode);
-            processedNodes.push(listNode.get(leastIDX));
-            //Set closest node to visited
-            visitedNode.set(leastIDX, true);
-            //Get the adjacency list of the closest node and update the least amount of cost to get there
-            Node<String> explore = this.findOrigin(listNode.get(leastIDX)).head;
-            while(explore != null){
-                if(option == 'C'){
-                    if(costToNode.get(listNode.indexOf(explore.value)) > explore.cost + costToNode.get(leastIDX)){
-                        costToNode.set(listNode.indexOf(explore.value), explore.cost + costToNode.get(leastIDX));
-                        timeToNode.set(listNode.indexOf(explore.value), explore.minutes + timeToNode.get(leastIDX));
-                        parentNode.set(listNode.indexOf(explore.value), listNode.get(leastIDX));
-                    }
-                }
-        
-                else{
-                    if(timeToNode.get(listNode.indexOf(explore.value)) > explore.minutes + timeToNode.get(leastIDX)){
-                        costToNode.set(listNode.indexOf(explore.value), explore.cost + costToNode.get(leastIDX));
-                        timeToNode.set(listNode.indexOf(explore.value), explore.minutes + timeToNode.get(leastIDX));
-                        parentNode.set(listNode.indexOf(explore.value), listNode.get(leastIDX));
-                    }
-                }
-                explore = explore.next;
-            }
-        }
-
-        System.out.println(listNode);
-        System.out.println(costToNode);
-        System.out.println(timeToNode);
-        System.out.println(parentNode);
-        // System.out.println("Stack: " + processedNodes);
-
-        StackG<String> printStack = new StackG<>();
-        String s = d;
-        while(s != null){
-            printStack.push(s);
-            s = parentNode.get(listNode.indexOf(s));
-        }
-        while(!printStack.empty()){
-            System.out.print(printStack.pop());
-            if(!printStack.empty())
-                System.out.print(" -> ");
-        }
-        System.out.printf(". Time: %d Cost: %d\n",timeToNode.get(listNode.indexOf(d)), costToNode.get(listNode.indexOf(d)));
-        
-        //Finding kth shortest path
-        int k = 2;
-        int nextshortestl = Integer.MAX_VALUE;
-
-        s = d;  //Start from destination
-        for(int i = 0; i < k; i++){
-            while(!s.equals(o)){
-                Node<String> detour = this.findOrigin(s).head;
-                while(detour != null){
-                    
-                    nextshortestl = (option == 'C')? Integer.min(nextshortestl, detour.cost + costToNode.get(listNode.indexOf(detour.value))):
-                                    Integer.min(nextshortestl, detour.minutes + timeToNode.get(listNode.indexOf(detour.value)));
-                    System.out.println(s + " " + detour.value + " " + nextshortestl);
-               
-                    // do{
-                        detour = detour.next;
-                    // } while (detour != null && parentNode.get(listNode.indexOf(s)).equals(detour.value));
-                }
-
-                s = parentNode.get(listNode.indexOf(s));
-                // System.out.println(s.equals(o));
-                
-            }
-            if(option == 'C'){
-                System.out.println("Next lowest: " + (nextshortestl));
-            } else {
-                System.out.println("Next lowest: " + (nextshortestl));
-            }
-        }
-    }   
 
     // public static void main(String[] args){
     //     Graph graph = new Graph();

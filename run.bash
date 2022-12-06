@@ -1,3 +1,4 @@
 # bin/bash
+clear
 javac Main.java
-java Main
+java Main routeTest.txt requestTest.txt

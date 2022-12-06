@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 public class Graph{
     NodeCityList head;
     private Integer size;
@@ -141,7 +142,8 @@ public class Graph{
                         r = findOrigin(path.top()).head;
                         while(r != null){
                             visitedNode.get(listNode.indexOf(path.top())).set(listNode.indexOf(r.value), false);
-                            listParent.get(listNode.indexOf(r.value)).remove(listNode.indexOf(path.top()));
+                            while(listParent.get(listNode.indexOf(r.value)).remove(path.top()));
+                            // System.out.println(listParent.get(listNode.indexOf(r.value)));
                             r = r.next;
                         }
                         String s = path.pop();
@@ -155,10 +157,6 @@ public class Graph{
                 }
             }
         }
-        
-        // for(int i = 0; i < pathList.size() ; i++){
-        //     System.out.println(pathList.get(i) + "   " + weight.get(i)[0]);
-        // }
 
         topThreePaths(pathList, weight, option, n);
     }
@@ -169,7 +167,10 @@ public class Graph{
             return;
         }
 
-        int thres = 0;
+        // for(int i = 0; i < paths.size() ; i++){
+        //     System.out.println(paths.get(i) + "   " + weight.get(i)[0]);
+        // }
+
         int op = (option == 'C')? 0 : 1;
         int iter = (paths.size() >= n)? n : paths.size();
         for(int i = 0; i < iter; i++){
@@ -177,13 +178,14 @@ public class Graph{
             int min = Integer.MAX_VALUE;
             int j = 0;
             for(;j < weight.size(); j++){
-                if(weight.get(j)[op] < min && weight.get(j)[op] > thres){
+                if(weight.get(j)[op] < min){
                     min = weight.get(j)[op];
                     idx = j;
                 } 
             }
-            thres = min;
             System.out.print("Path " + (i+1) + ": " + toPath(paths.get(idx)) + "   Time: " + weight.get(idx)[1] + "  Cost: " + weight.get(idx)[0] + "\n");
+            paths.remove(idx);
+            weight.remove(idx);
         }
     }
 

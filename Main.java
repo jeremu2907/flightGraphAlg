@@ -1,3 +1,15 @@
+//Name: Jeremy Nguyen
+//CS 3345
+//Project Flight Path Graph
+//Find the three shortest paths from origin to destination
+
+//Implemented using modified dfs with iterative back tracking
+//See Graph.java for more
+
+//Self written LinkedList and Stack, see each file for more detail
+
+//Implement OOP principles: inheritance, polymorphism, abstraction, and encapsulation
+
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Scanner; // Import the Scanner class to read text files
@@ -64,11 +76,6 @@ public class Main {
             e.printStackTrace();
         }
 
-        // System.out.println(graph);
-        // graph.dfs("Chicago", "Houston", 'C', 5);
-        // System.out.println();
-
-
         // Reading requests from file
         try {
             File myObj = new File(args[1]);
@@ -82,7 +89,6 @@ public class Main {
               Matcher m = r.matcher(data);
               if(m.find()){
                 System.out.printf("Flight %d: %s, %s (%s)\n",i, m.group(1), m.group(2), (m.group(3).charAt(0) == 'C')? "Cost":"Time");
-                // graph.path(m.group(1),m.group(2),m.group(3).charAt(0));
                 graph.dfs(m.group(1),m.group(2),m.group(3).charAt(0),3);
                 System.out.println();
               }
@@ -93,5 +99,6 @@ public class Main {
             e.printStackTrace();
         }
 
+        return;
     }
 }

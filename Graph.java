@@ -47,7 +47,7 @@ public class Graph{
         return t;
     }
 
-    public void dfs(String o, String d, char option, int n){
+    public ArrayList<String> dfs(String o, String d, char option, int n){
         StackG<NodeCityList> stack = new StackG<>();
         StackG<String> path = new StackG<>();
         ArrayList<String> listNode = new ArrayList<>();
@@ -64,8 +64,8 @@ public class Graph{
             visitedNode.add(new ArrayList<Boolean>(Collections.nCopies(listNode.size(),false)));
             listParent.add(new ArrayList<String>());
         }
-        ArrayList<Integer[]> weight = new ArrayList<>();            //<cost,time>
-        int cost = 0;
+        ArrayList<Float[]> weight = new ArrayList<>();            //<cost,time>
+        float cost = 0;
         int time = 0;
         stack.push(this.findOrigin(o));
 
@@ -85,7 +85,7 @@ public class Graph{
                 ArrayList<String> pathArray = path.toArrayList();
                 if(pathList.indexOf(pathArray) == -1){
                     pathList.add(pathArray);
-                    weight.add(new Integer[]{cost,time});
+                    weight.add(new Float[]{cost,(float)time});
                 }
                 String s = path.pop();                 //Destination is poped the moment the path is processed
                 if(!path.empty()){
@@ -158,13 +158,15 @@ public class Graph{
             }
         }
 
-        topThreePaths(pathList, weight, option, n);
+        return topThreePaths(pathList, weight, option, n);
     }
 
-    private void topThreePaths(ArrayList<ArrayList<String>> paths, ArrayList<Integer[]> weight, char option, int n){
+    private ArrayList<String> topThreePaths(ArrayList<ArrayList<String>> paths, ArrayList<Float[]> weight, char option, int n){
+        ArrayList<String> r = new ArrayList<>();
+
         if(paths.size() == 0){
             System.out.println("No flight available");
-            return;
+            return new ArrayList<>();
         }
 
         int op = (option == 'C')? 0 : 1;
@@ -176,7 +178,7 @@ public class Graph{
         int iter = (paths.size() >= n)? n : paths.size();
         for(int i = 0; i < iter; i++){
             int idx = 0;
-            int min = Integer.MAX_VALUE;
+            float min = Integer.MAX_VALUE;
             int j = 0;
             for(;j < weight.size(); j++){
                 if(weight.get(j)[op] < min){
@@ -184,10 +186,13 @@ public class Graph{
                     idx = j;
                 } 
             }
-            System.out.print("Path " + (i+1) + ": " + toPath(paths.get(idx)) + "   Time: " + weight.get(idx)[1] + "  Cost: " + weight.get(idx)[0] + "\n");
+            String w = "Path " + (i+1) + ": " + toPath(paths.get(idx)) + "   Time: " + Math.round(weight.get(idx)[1]) + "  Cost: " + String.format("%.2f", weight.get(idx)[0]) + "\n";
+            r.add(w);
             paths.remove(idx);
             weight.remove(idx);
         }
+
+        return r;
     }
 
     private String toPath(ArrayList<String> path){

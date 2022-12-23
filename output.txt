@@ -1,0 +1,20 @@
+Flight 1: Dallas, Houston (Time)
+Path 1:  Dallas -> Frisco -> Austin -> Houston    Time: 43  Cost: 1227.00
+Path 2:  Dallas -> Houston    Time: 51  Cost: 101.00
+Path 3:  Dallas -> Austin -> Houston    Time: 86  Cost: 193.00
+
+Flight 2: Chicago, Dallas (Cost)
+Path 1:  Chicago -> Austin -> Dallas    Time: 239  Cost: 242.00
+Path 2:  Chicago -> Austin -> Houston -> Dallas    Time: 282  Cost: 340.00
+Path 3:  Chicago -> Austin -> Frisco -> Dallas    Time: 196  Cost: 1276.00
+
+Flight 3: Chicago, Houston (Cost)
+Path 1:  Chicago -> Austin -> Houston    Time: 231  Cost: 239.00
+Path 2:  Chicago -> Austin -> Dallas -> Houston    Time: 290  Cost: 343.00
+Path 3:  Chicago -> Austin -> Frisco -> Dallas -> Houston    Time: 247  Cost: 1377.00
+
+Flight 4: Frisco, Houston (Time)
+Path 1:  Frisco -> Austin -> Houston    Time: 42  Cost: 227.00
+Path 2:  Frisco -> Dallas -> Houston    Time: 52  Cost: 1101.00
+Path 3:  Frisco -> Dallas -> Austin -> Houston    Time: 87  Cost: 1193.00
+

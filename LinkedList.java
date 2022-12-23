@@ -1,7 +1,7 @@
 class Node<E> {
     E value;
     Node<E> next;
-    int cost;
+    float cost;
     int minutes;
 
     //Used to store origin
@@ -14,7 +14,7 @@ class Node<E> {
     }
 
     //Used to store flight data
-    Node(E e, int c, int m){
+    Node(E e, float c, int m){
         value = e;
         cost = c;
         minutes = m;
